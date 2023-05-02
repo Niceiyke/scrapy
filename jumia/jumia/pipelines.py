@@ -11,18 +11,27 @@ from scrapy.exceptions import DropItem
 
 class JumiaPipeline:
     def process_item(self, item, spider):
+        print('pipeline' +item['name'])
         return item
     
-class Remove_Items_without_Discount_Pipeline:
+class Remove_Items_NotinStock_Pipeline:
 
     def process_item(self,item,spider):
         adapter =ItemAdapter(item)
 
-        if adapter.get('stock'):
-
-            adapter['stock']=="Add to cart"
+        if adapter['stock']=="Add to cart":
             return item
             
         else:
             raise DropItem(' {item} sold out')
             
+class Remove_Items_withNoDiscount_Pipeline:
+
+    def process_item(self,item,spider):
+        adapter =ItemAdapter(item)
+
+        if adapter['original_price'] is not None:
+            return item
+            
+        else:
+            raise DropItem('No Discount found for {item}')

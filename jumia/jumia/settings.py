@@ -62,7 +62,8 @@ NEWSPIDER_MODULE = "jumia.spiders"
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "jumia.pipelines.Remove_Items_without_Discount_Pipeline": 100,
+    "jumia.pipelines.Remove_Items_withNoDiscount_Pipeline": 100,
+    "jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

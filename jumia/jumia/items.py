@@ -23,6 +23,8 @@ class JumiaItem(scrapy.Item):
     original_price =scrapy.Field(input_processor=MapCompose(remove_tags, process_price),output_processor=(TakeFirst()))
     discount_price =scrapy.Field(input_processor=MapCompose(remove_tags, process_price),output_processor=(TakeFirst()))
     stock = scrapy.Field(input_processor=MapCompose(remove_tags), output_processor=(TakeFirst()))
+    category =scrapy.Field(input_processor=MapCompose(remove_tags), )
+    image=scrapy.Field(input_processor=MapCompose(remove_tags), output_processor=(TakeFirst()))
     #store=scrapy.Field()
 
    
