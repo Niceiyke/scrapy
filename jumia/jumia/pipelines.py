@@ -19,7 +19,9 @@ class Remove_Items_NotinStock_Pipeline:
     def process_item(self,item,spider):
         adapter =ItemAdapter(item)
 
-        if adapter['stock']=="Add to cart":
+        print('wow',adapter['stock'])
+
+        if adapter['stock']=="Add To Cart":
             return item
             
         else:

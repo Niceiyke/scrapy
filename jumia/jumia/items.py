@@ -5,7 +5,7 @@
 
 import scrapy
 from scrapy.loader import ItemLoader
-from itemloaders.processors import TakeFirst,MapCompose
+from itemloaders.processors import MapCompose,TakeFirst
 from w3lib.html import remove_tags
 
 
@@ -14,6 +14,15 @@ def process_price(value):
     valu=value.split('₦')[-1].strip().replace(",",'')
     valu =float(valu)
     return valu
+
+def process_url(val):
+    value =f'https://www.jumia.com.ng{val}'
+    return value
+
+def process_category(val):
+    value=val[-2]
+    return value
+
 def remove_new_line(value):
     return value.replace('\"','')
 
@@ -23,8 +32,9 @@ class JumiaItem(scrapy.Item):
     original_price =scrapy.Field(input_processor=MapCompose(remove_tags, process_price),output_processor=(TakeFirst()))
     discount_price =scrapy.Field(input_processor=MapCompose(remove_tags, process_price),output_processor=(TakeFirst()))
     stock = scrapy.Field(input_processor=MapCompose(remove_tags), output_processor=(TakeFirst()))
-    category =scrapy.Field(input_processor=MapCompose(remove_tags), )
+    category =scrapy.Field(input_processor=MapCompose(remove_tags,), output_processor=(TakeFirst()))
     image=scrapy.Field(input_processor=MapCompose(remove_tags), output_processor=(TakeFirst()))
-    #store=scrapy.Field()
+    url=scrapy.Field(input_processor=MapCompose(process_url),output_processor=(TakeFirst()))
+    dicount_percent=scrapy.Field(input_processor=MapCompose(remove_tags), output_processor=(TakeFirst()))
 
    
