@@ -21,7 +21,7 @@ class Remove_Items_NotinStock_Pipeline:
 
         print('wow',adapter['stock'])
 
-        if adapter['stock']=="Add To Cart":
+        if adapter['stock']== "Add To Cart":
             return item
             
         else:

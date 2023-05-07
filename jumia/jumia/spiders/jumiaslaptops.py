@@ -3,14 +3,28 @@ from ..items import JumiaItem
 from scrapy.loader import ItemLoader
 
 
-class jumiaSpyder(scrapy.Spider):
+class jumiaLaptopSpyder(scrapy.Spider):
     name ='jumialaptop'
     start_urls =['https://www.jumia.com.ng/mlp-working-from-anywhere/laptops/?rating=4-5&seller_score=4-5#catalog-listing',]
 
-    product_url=''
+
+    custom_settings= {
+          'FEEDS':{
+        'jumialaptop.json':{
+            'format':'json','overwrite': True
+        }
+    },
+
+            "ITEM_PIPELINES" :{
+                "jumia.pipelines.Remove_Items_withNoDiscount_Pipeline": 100,
+                "jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
+
+                }
+
+    }
+   
 
     def parse(self, response):
-        
         products =response.css('article.c-prd')
 
         for product in products:
@@ -21,8 +35,9 @@ class jumiaSpyder(scrapy.Spider):
             l.add_css('discount_price','div.prc ::text'),
             l.add_css('original_price','div.old ::text'),
             l.add_css('dicount_percent','div.bdg._dsct._sm ::text'),
-            l.add_css('stock','button.add.btn._prim.-pea._md ::text'),
+            l.add_css('stock','button.add.btn._md ::text'),
             l.add_value('category','laptops'),
+            l.add_value('store','Jumia'),
             l.add_css('image','img.img ::attr(data-src)'),
 
             yield l.load_item()

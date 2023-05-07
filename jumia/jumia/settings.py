@@ -12,6 +12,10 @@ BOT_NAME = "jumia"
 SPIDER_MODULES = ["jumia.spiders"]
 NEWSPIDER_MODULE = "jumia.spiders"
 
+# Splash Server Endpoint
+SPLASH_URL = 'http://localhost:8050'
+
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "jumia (+http://www.yourdomain.com)"
@@ -41,17 +45,26 @@ NEWSPIDER_MODULE = "jumia.spiders"
 #    "Accept-Language": "en",
 #}
 
-# Enable or disable spider middlewares
-# See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "jumia.middlewares.JumiaSpiderMiddleware": 543,
-#}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "jumia.middlewares.JumiaDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   #"jumia.middlewares.JumiaDownloaderMiddleware": 543,
+   'jumia.middlewares.CustomMiddleware': 543,
+   'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware': 725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+}
+
+# Enable or disable spider middlewares
+# See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+SPIDER_MIDDLEWARES = {
+    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+    #"jumia.middlewares.JumiaSpiderMiddleware": 543,
+}
+
+# Define the Splash DupeFilter
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -61,9 +74,17 @@ NEWSPIDER_MODULE = "jumia.spiders"
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
+
+ITEM_PIPELINES ={
     "jumia.pipelines.Remove_Items_withNoDiscount_Pipeline": 100,
-    "jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
+    #"jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
+
+        }
+
+FEEDS ={
+    'products.json':{
+        'format':'json','overwrite': True
+    }
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,3 +112,4 @@ ITEM_PIPELINES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
