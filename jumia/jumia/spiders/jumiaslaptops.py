@@ -18,7 +18,7 @@ class jumiaLaptopSpyder(scrapy.Spider):
             "ITEM_PIPELINES" :{
                 "jumia.pipelines.Remove_Items_withNoDiscount_Pipeline": 100,
                 "jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
-                "jumia.pipelines.SavingToDb": 300,
+                "jumia.pipelines.SavingToDbpostgres": 300,
 
                 }
 

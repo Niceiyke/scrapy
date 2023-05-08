@@ -10,6 +10,7 @@ from w3lib.html import remove_tags
 
 
 
+
 def process_price(value):
     print('gert',value)
     valu=value.split('₦')[-1].strip().replace(",",'')
