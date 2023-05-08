@@ -53,7 +53,7 @@ class JumiaItem(scrapy.Item):
     store=scrapy.Field(input_processor=MapCompose(remove_tags,), output_processor=(TakeFirst()))
     image=scrapy.Field(input_processor=MapCompose(remove_tags), output_processor=(TakeFirst()))
     url=scrapy.Field(input_processor=MapCompose(process_url),output_processor=(TakeFirst()))
-    dicount_percent=scrapy.Field(input_processor=MapCompose(remove_tags,process_discount), output_processor=(TakeFirst()))
+    discount_percent=scrapy.Field(input_processor=MapCompose(remove_tags,process_discount), output_processor=(TakeFirst()))
 
 
 class KongaItem(scrapy.Item):

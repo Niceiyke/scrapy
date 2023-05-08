@@ -7,6 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
+import sqlite3
 
 
 class JumiaPipeline:
@@ -32,8 +33,31 @@ class Remove_Items_withNoDiscount_Pipeline:
     def process_item(self,item,spider):
         adapter =ItemAdapter(item)
 
+
         if adapter['original_price'] is not None:
             return item
             
         else:
             raise DropItem('No Discount found for {item}')
+        
+
+class SavingToDb:
+
+    def __init__(self):
+        self.con =sqlite3.connect('scrapy.db')
+
+        self.cur =self.con.cursor()
+        self.create_table()
+
+    def create_table(self):
+
+        self.cur.execute("""CREATE TABLE IF NOT EXISTS products(
+        name TEXT PRIMARY KEY,stock text,category text,store text,image text,url text,discount REAL,original_price REAL,discount_price REAL)""")
+
+    def process_item(self,item,spider):
+        self.cur.execute(""" INSERT INTO products VALUES (?,?,?,?,?,?,?,?,?)""",
+                         (item['name'],item['stock'],item['category'],item['store'],item['image'],item['url'],item['discount_percent'],item['original_price'],item['discount_price'],))
+        
+        self.con.commit()
+
+        return item

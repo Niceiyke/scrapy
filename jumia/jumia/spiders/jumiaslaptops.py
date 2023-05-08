@@ -18,6 +18,7 @@ class jumiaLaptopSpyder(scrapy.Spider):
             "ITEM_PIPELINES" :{
                 "jumia.pipelines.Remove_Items_withNoDiscount_Pipeline": 100,
                 "jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
+                "jumia.pipelines.SavingToDb": 300,
 
                 }
 
@@ -34,7 +35,7 @@ class jumiaLaptopSpyder(scrapy.Spider):
             l.add_css('name','h3.name ::text'),
             l.add_css('discount_price','div.prc ::text'),
             l.add_css('original_price','div.old ::text'),
-            l.add_css('dicount_percent','div.bdg._dsct._sm ::text'),
+            l.add_css('discount_percent','div.bdg._dsct._sm ::text'),
             l.add_css('stock','button.add.btn._md ::text'),
             l.add_value('category','laptops'),
             l.add_value('store','Jumia'),
