@@ -12,6 +12,10 @@ BOT_NAME = "jumia"
 SPIDER_MODULES = ["jumia.spiders"]
 NEWSPIDER_MODULE = "jumia.spiders"
 
+BOT_NAME= 'web_page_crawler',
+
+ROBOTSTXT_OBEY=False,
+
 # Splash Server Endpoint
 SPLASH_URL = 'http://localhost:8050'
 
@@ -19,6 +23,7 @@ SPLASH_URL = 'http://localhost:8050'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "jumia (+http://www.yourdomain.com)"
+USER_AGENT= 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
 
 
 
@@ -28,6 +33,7 @@ SPLASH_URL = 'http://localhost:8050'
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
+
 #DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
@@ -65,6 +71,7 @@ SPIDER_MIDDLEWARES = {
 
 # Define the Splash DupeFilter
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -77,7 +84,7 @@ DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
 ITEM_PIPELINES ={
     "jumia.pipelines.Remove_Items_withNoDiscount_Pipeline": 100,
-    #"jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
+    "jumia.pipelines.Remove_Items_NotinStock_Pipeline": 200,
 
         }
 
